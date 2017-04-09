@@ -1,0 +1,16 @@
+{
+  "name": "dzen2",
+  "version": "0.0.0",
+  "description": "Use dzen2 from Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Renée Kooi <renee@kooi.me>",
+  "license": "MIT",
+  "dependencies": {
+    "duplexify": "^3.5.0",
+    "through2": "^2.0.3"
+  }
+}
