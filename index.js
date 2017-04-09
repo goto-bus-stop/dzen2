@@ -14,7 +14,12 @@ module.exports = function dzen2 (opts) {
   })
   input.pipe(dz.stdin)
 
-  return duplexify(input, dz.stdout)
+  const stream = duplexify(input, dz.stdout)
+  stream.process = dz
+  stream.process.on('error', (error) => {
+    stream.emit('error', error)
+  })
+  return stream
 }
 
 function serializeOptions (opts) {
