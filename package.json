@@ -4,7 +4,8 @@
   "description": "Use dzen2 from Node.js.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node install.js"
   },
   "keywords": [],
   "author": "Renée Kooi <renee@kooi.me>",
