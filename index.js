@@ -1,29 +1,29 @@
-const spawn = require('child_process').spawn
-const duplexify = require('duplexify')
-const through = require('through2')
+var spawn = require('child_process').spawn
+var duplexify = require('duplexify')
+var through = require('through2')
 
 module.exports = function dzen2 (opts) {
-  const args = serializeOptions(opts || {})
+  var args = serializeOptions(opts || {})
 
-  const dz = spawn('dzen2', args)
+  var dz = spawn('dzen2', args)
 
   // Every `write()` call becomes a line.
-  const input = through(function write (data, enc, cb) {
-    const line = data.toString()
+  var input = through(function write (data, enc, cb) {
+    var line = data.toString()
     cb(null, `${line}\n`)
   })
   input.pipe(dz.stdin)
 
-  const stream = duplexify(input, dz.stdout)
+  var stream = duplexify(input, dz.stdout)
   stream.process = dz
-  stream.process.on('error', (error) => {
+  stream.process.on('error', function (error) {
     stream.emit('error', error)
   })
   return stream
 }
 
 function serializeOptions (opts) {
-  const args = []
+  var args = []
   if (opts.foreground) {
     args.push('-fg', opts.foreground)
   }
