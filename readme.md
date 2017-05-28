@@ -36,6 +36,18 @@ Options:
  * `foreground` - Foreground and text color. Use a symbolic name or a six-
    character #rrggbb hex code.
  * `background` - Background color.
+ * `font` - Font.
+ * `align` - Content alignment in the title window. `left`, `center` or `right`.
+ * `titleWidth` - Width of the title window.
+ * `secondaryAlign` - Content alignment in the secondary window. `left`, `center` or `right`.
+ * `secondaryLines` - Amount of lines to show in the secondary window.
+ * `menu` - Menu mode.
+ * `persist` - Keep running for this amount of seconds after the input stream closes.
+ * `x` - X position.
+ * `y` - Y position.
+ * `lineHeight` - Height in pixels of each line. Defaults to the font height + 2px.
+ * `width` - Width.
+ * `screen` - Xinerama screen number.
 
 ### `stream.setTitle(str)`
 
