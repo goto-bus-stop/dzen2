@@ -24,12 +24,80 @@ module.exports = function dzen2 (opts) {
     stream.emit('error', error)
   })
   stream.setTitle = setTitle
+  stream.toggleCollapse = toggleCollapse
+  stream.collapse = collapse
+  stream.uncollapse = uncollapse
+  stream.toggleHide = toggleHide
+  stream.hide = hide
+  stream.unhide = unhide
+  stream.raise = raise
+  stream.lower = lower
+  stream.scrollHome = scrollHome
+  stream.scrollEnd = scrollEnd
+  stream.exit = exit
 
   return stream
 
   function setTitle (title) {
     assert.equal(typeof title, 'string')
-    return input.write('^tw()' + title)
+    input.write('^tw()' + title)
+    return stream
+  }
+  function toggleCollapse () {
+    input.write('^togglecollapse()')
+    return stream
+  }
+  function collapse () {
+    input.write('^collapse()')
+    return stream
+  }
+  function uncollapse () {
+    input.write('^uncollapse()')
+    return stream
+  }
+  function toggleSticky () {
+    input.write('^togglestick()')
+    return stream
+  }
+  function stick () {
+    input.write('^stick()')
+    return stream
+  }
+  function unstick () {
+    input.write('^unstick()')
+    return stream
+  }
+  function toggleHide () {
+    input.write('^togglehide()')
+    return stream
+  }
+  function hide () {
+    input.write('^hide()')
+    return stream
+  }
+  function unhide () {
+    input.write('^unhide()')
+    return stream
+  }
+  function raise () {
+    input.write('^raise()')
+    return stream
+  }
+  function lower () {
+    input.write('^lower()')
+    return stream
+  }
+  function scrollHome () {
+    input.write('^scrollhome()')
+    return stream
+  }
+  function scrollEnd () {
+    input.write('^scrollend()')
+    return stream
+  }
+  function exit () {
+    input.write('^exit()')
+    return stream
   }
 }
 

@@ -54,6 +54,51 @@ Options:
 Set the contents of the title window.
 Equivalent to `stream.write('^tw()' + str)`.
 
+### `stream.toggleCollapse()`
+
+Toggle collapsed state of the secondary window.
+
+### `stream.collapse()`
+
+Collapse the secondary window.
+
+### `stream.uncollapse()`
+
+"Uncollapse" (expand) the secondary window.
+
+### `stream.toggleHide()`
+
+Hide or show the title window.
+
+### `stream.hide()`
+
+Hide the title window.
+If the secondary window is uncollapsed, the secondary window will still be shown.
+
+### `stream.unhide()`
+
+"Unhide" (show) the title window.
+
+### `stream.raise()`
+
+Raise the window in front of all other windows.
+
+### `stream.lower()`
+
+Lower the window behind all other windows.
+
+### `stream.scrollHome()`
+
+Scroll the secondary window to the top.
+
+### `stream.scrollEnd()`
+
+Scroll the secondary window to the bottom.
+
+### `stream.exit()`
+
+Tell dzen to quit.
+
 ## License
 
 [MIT](./LICENSE)
