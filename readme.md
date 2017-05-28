@@ -24,11 +24,23 @@ setTimeout(() => {
 }, 3000)
 ```
 
-## Options
+## API
+
+### `stream = dzen(options)`
+
+Spawn a dzen process.
+`stream` is a duplex stream, write strings to it to display them.
+
+Options:
 
  * `foreground` - Foreground and text color. Use a symbolic name or a six-
    character #rrggbb hex code.
  * `background` - Background color.
+
+### `stream.setTitle(str)`
+
+Set the contents of the title window.
+Equivalent to `stream.write('^tw()' + str)`.
 
 ## License
 

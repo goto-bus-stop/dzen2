@@ -1,4 +1,5 @@
 var path = require('path')
+var assert = require('assert')
 var spawn = require('child_process').spawn
 var duplexify = require('duplexify')
 var through = require('through2')
@@ -13,7 +14,7 @@ module.exports = function dzen2 (opts) {
   // Every `write()` call becomes a line.
   var input = through(function write (data, enc, cb) {
     var line = data.toString()
-    cb(null, `${line}\n`)
+    cb(null, line + '\n')
   })
   input.pipe(dz.stdin)
 
@@ -22,7 +23,14 @@ module.exports = function dzen2 (opts) {
   stream.process.on('error', function (error) {
     stream.emit('error', error)
   })
+  stream.setTitle = setTitle
+
   return stream
+
+  function setTitle (title) {
+    assert.equal(typeof title, 'string')
+    return input.write('^tw()' + title)
+  }
 }
 
 function serializeOptions (opts) {
