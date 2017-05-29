@@ -9,7 +9,8 @@ var DZEN_PATH = path.join(__dirname, 'dzen/dzen2')
 module.exports = function dzen2 (opts) {
   var args = serializeOptions(opts || {})
 
-  var dz = spawn(DZEN_PATH, args)
+  var dzenPath = opts.path || DZEN_PATH
+  var dz = spawn(dzenPath, args)
 
   // Every `write()` call becomes a line.
   var input = through(function write (data, enc, cb) {
