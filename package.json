@@ -4,8 +4,7 @@
   "description": "Use dzen2 from Node.js.",
   "main": "index.js",
   "scripts": {
-    "test": "tape test.js",
-    "postinstall": "node install.js"
+    "test": "tape test.js"
   },
   "keywords": [],
   "author": "Renée Kooi <renee@kooi.me>",
