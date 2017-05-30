@@ -11,6 +11,7 @@ test('.exit()', function (t) {
   var dz = dzen()
   dz.on('data', (line) => {
     t.equal(line.toString(), '^exit()\n')
+    dz.process.kill()
   })
   dz.exit()
 })

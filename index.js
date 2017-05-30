@@ -45,7 +45,7 @@ module.exports = function dzen2 (opts) {
   stream.scrollEnd = scrollEnd
   stream.exit = exit
 
-  dz.on('close', function () {
+  if (eventServer) dz.on('close', function () {
     eventServer.close()
   })
 
