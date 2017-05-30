@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "duplexify": "^3.5.0",
+    "dzen2-bin": "^1.0.2",
     "through2": "^2.0.3"
   },
   "devDependencies": {

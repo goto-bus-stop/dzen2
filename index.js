@@ -3,8 +3,7 @@ var assert = require('assert')
 var spawn = require('child_process').spawn
 var duplexify = require('duplexify')
 var through = require('through2')
-
-var DZEN_PATH = path.join(__dirname, 'dzen/dzen2')
+var DZEN_PATH = require('dzen2-bin')
 
 module.exports = function dzen2 (opts) {
   var args = serializeOptions(opts || {})
