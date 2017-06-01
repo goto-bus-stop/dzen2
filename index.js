@@ -3,17 +3,26 @@ var assert = require('assert')
 var spawn = require('child_process').spawn
 var duplexify = require('duplexify')
 var through = require('through2')
+var shellEscape = require('any-shell-escape')
 var DZEN_PATH = require('dzen2-bin')
 
+var rxEvents = /\^ca\(([1-5]),\s*emit\(([^)]+)\)\)/g
+var sendCommand = [process.argv[0], require.resolve('./send-command')]
+
 module.exports = function dzen2 (opts) {
-  var args = serializeOptions(opts || {})
+  opts = opts || {}
+  var args = serializeOptions(opts)
 
   var dzenPath = opts.path || DZEN_PATH
   var dz = spawn(dzenPath, args)
+  var eventServer = opts.events && createEventServer()
 
   // Every `write()` call becomes a line.
   var input = through(function write (data, enc, cb) {
     var line = data.toString()
+    if (opts.events) {
+      line = line.replace(rxEvents, convertEventString)
+    }
     cb(null, line + '\n')
   })
   input.pipe(dz.stdin)
@@ -36,7 +45,29 @@ module.exports = function dzen2 (opts) {
   stream.scrollEnd = scrollEnd
   stream.exit = exit
 
+  if (eventServer) dz.on('close', function () {
+    eventServer.close()
+  })
+
   return stream
+
+  function convertEventString (_, button, args) {
+    var command = sendCommand.concat([eventServer.address().port + ''])
+    if (args) command.push(args)
+    return '^ca(' + button + ', ' + shellEscape(command) + ')'
+  }
+  function createEventServer () {
+    return require('net').createServer(function (socket) {
+      var buffer = ''
+      socket.on('data', function (chunk) { buffer += chunk })
+      socket.on('end', function () {
+        var args = buffer.split(',').map(function (str) {
+          return str.trim()
+        })
+        stream.emit.apply(stream, args)
+      })
+    }).listen()
+  }
 
   function setTitle (title) {
     assert.equal(typeof title, 'string')

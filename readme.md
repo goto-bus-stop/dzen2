@@ -33,6 +33,9 @@ Spawn a dzen process.
 
 Options:
 
+ * `path` - Path to the dzen2 binary to use.
+   Defaults to [dzen2-bin](https://github.com/goto-bus-stop/dzen2-bin).
+ * `events` - Enable [events syntax](#events). Default false.
  * `foreground` - Foreground and text color. Use a symbolic name or a six-
    character #rrggbb hex code.
  * `background` - Background color.
@@ -98,6 +101,32 @@ Scroll the secondary window to the bottom.
 ### `stream.exit()`
 
 Tell dzen to quit.
+
+## Events
+
+This module supports a special syntax for the `^ca()` modifier to emit events on the stream object.
+
+```js
+var dzen2 = require('dzen2')
+var stream = dzen2({
+  events: true
+})
+
+stream.write('^ca(1, emit(hello))click me^ca()')
+stream.on('hello', function () {
+  console.log('hello from dzen!')
+})
+```
+
+Internally this starts a tiny TCP server.
+The `emit(event)` parts are rewritten to execute a node script that sends the event to the server.
+
+```js
+// input
+"^ca(1, emit(test-event))Test event^ca()"
+// rewritten
+"^ca(1, /usr/bin/node '/home/username/Projects/dzen2/send-command.js' 41481 'test-event')Test event^ca()"
+```
 
 ## License
 
