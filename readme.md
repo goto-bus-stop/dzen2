@@ -1,6 +1,6 @@
 # dzen2
 
-Use [dzen2](https://github.com/robm/dzen) as a Node.js duplex stream.
+Use [dzen2](https://github.com/robm/dzen) as a Node.js stream.
 
 ## Install
 
@@ -30,7 +30,7 @@ setTimeout(() => {
 ### `stream = require('dzen2')(options)`
 
 Spawn a dzen process.
-`stream` is a duplex stream, write strings to it to display them.
+`stream` is a stream, write strings to it to display them.
 
 Options:
 
