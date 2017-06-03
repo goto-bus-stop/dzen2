@@ -1,6 +1,6 @@
 {
   "name": "dzen2",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Use dzen2 from Node.js.",
   "main": "index.js",
   "scripts": {
