@@ -36,8 +36,7 @@ Options:
  * `path` - Path to the dzen2 binary to use.
    Defaults to [dzen2-bin](https://github.com/goto-bus-stop/dzen2-bin).
  * `events` - Enable [events syntax](#events). Default false.
- * `foreground` - Foreground and text color. Use a symbolic name or a six-
-   character #rrggbb hex code.
+ * `foreground` - Foreground and text color. Use a symbolic name or a six-character #rrggbb hex code.
  * `background` - Background color.
  * `font` - Font.
  * `align` - Content alignment in the title window. `left`, `center` or `right`.
@@ -51,6 +50,8 @@ Options:
  * `lineHeight` - Height in pixels of each line. Defaults to the font height + 2px.
  * `width` - Width.
  * `screen` - Xinerama screen number.
+ * `dock` - Set to true to dock the window, eg for use as a taskbar or statusbar.
+   Otherwise it'll show on top of other windows.
 
 ### `stream.setTitle(str)`
 

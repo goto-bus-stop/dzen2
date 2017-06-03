@@ -54,5 +54,8 @@ function serializeOptions (opts) {
   if (opts.screen) {
     args.push('-xs', opts.screen)
   }
+  if (opts.dock) {
+    args.push('-dock')
+  }
   return args
 }
