@@ -26,18 +26,33 @@ setTimeout(() => {
 
 ## API
 
-### `stream = dzen(options)`
+<a id="api-dzen"></a>
+### `stream = require('dzen2')(options)`
 
 Spawn a dzen process.
 `stream` is a duplex stream, write strings to it to display them.
 
 Options:
 
+ * `spawn` - Whether to spawn a dzen process. Default true.
+   Set to `false` if you want to pipe the dzen formatted `stream` to a separate dzen instance.
+   If `true`, all options are also passed through to [spawn](#api-spawn).
+ * `events` - Enable [events syntax](#events). Default false.
+
+If `spawn` is true, the `stream` has a `process` property with the [spawn](#api-spawn)ed process.
+
+<a id="api-spawn"></a>
+### `pr = require('dzen2/spawn')(options)`
+
+Spawn a dzen process.
+Returns a plain [ChildProcess](https://nodejs.org/api/child_process.html#child_process_class_childprocess).
+You can pipe a [`stream`](#api-dzen) to its stdin.
+
+Options:
+
  * `path` - Path to the dzen2 binary to use.
    Defaults to [dzen2-bin](https://github.com/goto-bus-stop/dzen2-bin).
- * `events` - Enable [events syntax](#events). Default false.
- * `foreground` - Foreground and text color. Use a symbolic name or a six-
-   character #rrggbb hex code.
+ * `foreground` - Foreground and text color. Use a symbolic name or a six-character #rrggbb hex code.
  * `background` - Background color.
  * `font` - Font.
  * `align` - Content alignment in the title window. `left`, `center` or `right`.
@@ -51,6 +66,8 @@ Options:
  * `lineHeight` - Height in pixels of each line. Defaults to the font height + 2px.
  * `width` - Width.
  * `screen` - Xinerama screen number.
+ * `dock` - Set to true to dock the window, eg for use as a taskbar or statusbar.
+   Otherwise it'll show on top of other windows.
 
 ### `stream.setTitle(str)`
 
