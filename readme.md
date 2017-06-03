@@ -39,6 +39,8 @@ Options:
    If `true`, all options are also passed through to [spawn](#api-spawn).
  * `events` - Enable [events syntax](#events). Default false.
 
+If `spawn` is true, the `stream` has a `process` property with the [spawn](#api-spawn)ed process.
+
 <a id="api-spawn"></a>
 ### `pr = require('dzen2/spawn')(options)`
 
