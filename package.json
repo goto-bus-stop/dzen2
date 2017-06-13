@@ -3,6 +3,10 @@
   "version": "2.0.0",
   "description": "Use dzen2 from Node.js.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/goto-bus-stop/dzen2"
+  },
   "scripts": {
     "test": "tape test.js"
   },
