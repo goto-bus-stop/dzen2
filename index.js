@@ -9,12 +9,18 @@ var sendCommand = [process.argv[0], require.resolve('./send-command')]
 module.exports = function dzen2 (opts) {
   opts = opts || {}
 
-  var eventServer = opts.events && createEventServer()
+  // Backwards compatability
+  if (!('eventServer' in opts) && typeof opts.events === 'boolean') {
+    opts.eventServer = opts.events
+    opts.events = null
+  }
+
+  var eventServer = opts.eventServer && createEventServer()
 
   // Every `write()` call becomes a line.
   var stream = through(function write (data, enc, cb) {
     var line = data.toString()
-    if (opts.events) {
+    if (opts.eventServer) {
       line = line.replace(rxEvents, convertEventString)
     }
     cb(null, line + '\n')
