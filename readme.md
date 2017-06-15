@@ -34,10 +34,11 @@ Spawn a dzen process.
 
 Options:
 
- * `spawn` - Whether to spawn a dzen process. Default true.
+ * `spawn`: __*(Bool=true)*__ Whether to spawn a dzen process.
    Set to `false` if you want to pipe the dzen formatted `stream` to a separate dzen instance.
    If `true`, all options are also passed through to [spawn](#api-spawn).
- * `events` - Enable [events syntax](#events). Default false.
+ * `events`: __*(String)*__ List of events and actions. See [Events and actions](#events-and-actions).
+ * `eventServer`: __*(Bool=false)*__ Enable [events server](#event-server). *Note: this options has been renamed from `events`.*
 
 If `spawn` is true, the `stream` has a `process` property with the [spawn](#api-spawn)ed process.
 
@@ -69,64 +70,84 @@ Options:
  * `dock` - Set to true to dock the window, eg for use as a taskbar or statusbar.
    Otherwise it'll show on top of other windows.
 
-### `stream.setTitle(str)`
+### Stream methods
+#### `stream.setTitle(str)`
 
 Set the contents of the title window.
 Equivalent to `stream.write('^tw()' + str)`.
 
-### `stream.toggleCollapse()`
+#### `stream.toggleCollapse()`
 
 Toggle collapsed state of the secondary window.
 
-### `stream.collapse()`
+#### `stream.collapse()`
 
 Collapse the secondary window.
 
-### `stream.uncollapse()`
+#### `stream.uncollapse()`
 
 "Uncollapse" (expand) the secondary window.
 
-### `stream.toggleHide()`
+#### `stream.toggleHide()`
 
 Hide or show the title window.
 
-### `stream.hide()`
+#### `stream.hide()`
 
 Hide the title window.
 If the secondary window is uncollapsed, the secondary window will still be shown.
 
-### `stream.unhide()`
+#### `stream.unhide()`
 
 "Unhide" (show) the title window.
 
-### `stream.raise()`
+#### `stream.raise()`
 
 Raise the window in front of all other windows.
 
-### `stream.lower()`
+#### `stream.lower()`
 
 Lower the window behind all other windows.
 
-### `stream.scrollHome()`
+#### `stream.scrollHome()`
 
 Scroll the secondary window to the top.
 
-### `stream.scrollEnd()`
+#### `stream.scrollEnd()`
 
 Scroll the secondary window to the bottom.
 
-### `stream.exit()`
+#### `stream.exit()`
 
 Tell dzen to quit.
 
-## Events
+## Events and actions
+This allows you to associate actions to events. Events and actions are separated by `=` and each pair is separaded by a `;`. If an event triggers more than one action, the actions are separated by `,`.
 
-This module supports a special syntax for the `^ca()` modifier to emit events on the stream object.
+For example: `entertitle=uncollapse,unhide;button1=exec:xterm:firefox;` will uncollapse and unhide the window when the mouse enters the title and will execute `xterm` and `firefox` when the mouse button 1 is clicked.
+
+For more information, see the "(2) Option '-e': Events and actions" section of the [dzen2 README].
+
+## Clickable areas
+
+The `^ca()` modifier allows for running commands when the enclosed text is clicked. `^ca(BTN, CMD)` marks the beggining of a clickable area which will call `CMD` when `BTN` is clicked in it. `^ca()` marks the end of the clickable area.
+
+```js
+var dzen2 = require('dzen2')
+var stream = dzen2()
+stream.write('^ca(1, firefox --new-tab npmjs.com/package/dzen2)click me^ca()')
+```
+
+For more information about clickable areas, see the "Interaction" section of the [dzen2 README].
+
+### Event-server
+
+When `eventServer` is set to `true`, the `emit()` function will be available inside `^ca()`.
 
 ```js
 var dzen2 = require('dzen2')
 var stream = dzen2({
-  events: true
+  eventServer: true
 })
 
 stream.write('^ca(1, emit(hello))click me^ca()')
@@ -135,16 +156,17 @@ stream.on('hello', function () {
 })
 ```
 
-Internally this starts a tiny TCP server.
+This internally this starts a tiny TCP server.
 The `emit(event)` parts are rewritten to execute a node script that sends the event to the server.
 
 ```js
-// input
 "^ca(1, emit(test-event))Test event^ca()"
-// rewritten
+// is equivelent to
 "^ca(1, /usr/bin/node '/home/username/Projects/dzen2/send-command.js' 41481 'test-event')Test event^ca()"
 ```
 
 ## License
 
 [MIT](./LICENSE)
+
+[dzen2 README]: https://github.com/robm/dzen/blob/master/README
