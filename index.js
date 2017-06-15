@@ -1,10 +1,7 @@
-var path = require('path')
 var assert = require('assert')
-var spawn = require('child_process').spawn
 var through = require('through2')
 var shellEscape = require('any-shell-escape')
 var spawn = require('./spawn')
-var DZEN_PATH = require('dzen2-bin')
 
 var rxEvents = /\^ca\(([1-5]),\s*emit\(([^)]+)\)\)/g
 var sendCommand = [process.argv[0], require.resolve('./send-command')]
@@ -12,12 +9,18 @@ var sendCommand = [process.argv[0], require.resolve('./send-command')]
 module.exports = function dzen2 (opts) {
   opts = opts || {}
 
-  var eventServer = opts.events && createEventServer()
+  // Backwards compatability
+  if (!('eventServer' in opts) && typeof opts.events === 'boolean') {
+    opts.eventServer = opts.events
+    opts.events = null
+  }
+
+  var eventServer = opts.eventServer && createEventServer()
 
   // Every `write()` call becomes a line.
   var stream = through(function write (data, enc, cb) {
     var line = data.toString()
-    if (opts.events) {
+    if (opts.eventServer) {
       line = line.replace(rxEvents, convertEventString)
     }
     cb(null, line + '\n')
@@ -84,18 +87,6 @@ module.exports = function dzen2 (opts) {
   }
   function uncollapse () {
     stream.write('^uncollapse()')
-    return stream
-  }
-  function toggleSticky () {
-    stream.write('^togglestick()')
-    return stream
-  }
-  function stick () {
-    stream.write('^stick()')
-    return stream
-  }
-  function unstick () {
-    stream.write('^unstick()')
     return stream
   }
   function toggleHide () {

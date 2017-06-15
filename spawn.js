@@ -57,5 +57,8 @@ function serializeOptions (opts) {
   if (opts.dock) {
     args.push('-dock')
   }
+  if (opts.events && typeof opts.events === 'string') {
+    args.push('-e', opts.events)
+  }
   return args
 }
